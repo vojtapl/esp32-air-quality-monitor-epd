@@ -47,6 +47,49 @@ found some design quirks I have made:
 - Consider adding a _busy_ LED if the BWRY EPD still has slow update time.
 - Create a version without battery.
 
+## Build Instructions
+
+### Required parts:
+
+- 1x M3x(3-5) mm grub screw
+- 3x M3x(15-25) mm screw with countersunk head
+- 3x M3 thread inserts suitable for a 4 mm hole
+- micro SD card for data storage and graphing function
+- 0.5 mm plastic sheet cut to 37 mm x 73 mm as a protection for the EPD (though
+  with a little modification to the case files can be disregarded)
+- populated PCB with a cap for the power switch
+- printed case, encoder knob and a gasket for SEN66 (recommended to be made with
+  a flexible plastic; not required)
+- SEN66 - PCB connection wire
+- 18650 battery, if non-powered usage is desired
+
+### Some Photos Which Should Help
+
+<h3 align="center">
+    <img
+        width="800"
+        alt="first assembly image"
+        src="resources/img_assembly_1.jpg">
+</h3>
+<h3 align="center">
+    <img
+        width="800"
+        alt="first assembly image"
+        src="resources/img_assembly_2.jpg">
+</h3>
+<h3 align="center">
+    <img
+        width="800"
+        alt="first assembly image"
+        src="resources/img_assembly_3.jpg">
+</h3>
+<h3 align="center">
+    <img
+        width="800"
+        alt="first assembly image"
+        src="resources/img_assembly_4.jpg">
+</h3>
+
 ## Air Quality Thresholds Table
 
 |                                | PM2.5, PM1, PM4 | PM10       | humidex  | voc, nox index | CO2          |
@@ -79,3 +122,5 @@ Based on:
 - The font used for the charging status markings on the case is Atkinson
   Hyperlegible, available at
   [Braille Institute's website](https://www.brailleinstitute.org/freefont/)
+- The SD card abstraction functions are based on
+  [this example.](https://github.com/espressif/arduino-esp32/blob/master/libraries/SD_MMC/examples/SDMMC_Test/SDMMC_Test.ino).
