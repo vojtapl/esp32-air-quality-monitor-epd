@@ -123,4 +123,4 @@ Based on:
   Hyperlegible, available at
   [Braille Institute's website](https://www.brailleinstitute.org/freefont/)
 - The SD card abstraction functions are based on
-  [this example.](https://github.com/espressif/arduino-esp32/blob/master/libraries/SD_MMC/examples/SDMMC_Test/SDMMC_Test.ino).
+  [this example](https://github.com/espressif/arduino-esp32/blob/master/libraries/SD_MMC/examples/SDMMC_Test/SDMMC_Test.ino).

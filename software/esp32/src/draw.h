@@ -271,34 +271,45 @@ void fetch_graph_data_from_sd_card(draw_idx_t type, const float x_min,
   global_max = std::numeric_limits<float>::min();
   global_min = std::numeric_limits<float>::max();
 
-  uint16_t x_px_prev = 0;
-
-  // TODO: consider reading from the end if this is too slow
   File file = SD_MMC.open(DATA_PATH, FILE_READ, false);
-  file.seek(0);
-  uint32_t sd_curr_pos = 0;
 
   const uint8_t data_offset = get_line_read_offset(type);
-  while (file.available()) {
+
+  uint32_t seek_min = ((t_curr - t_min) / UPDATE_PERIOD_SEN66) * DATA_LINE_LEN;
+  size_t seek_init = file.size() > seek_min ? file.size() - seek_min : 0;
+  if (!file.seek(seek_init, fs::SeekSet)) {
+    Log.errorln("seek error, curr file pos: %d/%d", file.position(),
+                file.size());
+    goto close_file_and_return;
+  }
+
+  uint16_t x_px_prev = 0;
+  while (file.available() >= DATA_LINE_LEN) {
+
     int read_t = file.readBytesUntil(',', buf, sizeof(buf));
     buf[read_t] = '\0';
 
     uint32_t t = 0;
     if (sscanf(buf, "%d", &t) != 1) {
-      Log.errorln("Unable to read time value");
+      Log.errorln(
+          "Unable to read time value from buffer: %s, curr file pos: %d/%d",
+          buf, file.position(), file.size());
       break;
     }
+
     if ((t < t_min) || (t > t_max)) {
       // skip to another line
       if (!file.seek(DATA_LINE_LEN - read_t - 1, fs::SeekCur)) {
-        Log.errorln("seek error");
+        Log.errorln("seek error, curr file pos: %d/%d", file.position(),
+                    file.size());
         break;
       }
       continue;
     }
 
     if (!file.seek(data_offset, fs::SeekCur)) {
-      Log.errorln("Seek error");
+      Log.errorln("seek error, curr file pos: %d/%d", file.position(),
+                  file.size());
     }
 
     int read_val = file.readBytesUntil(',', buf, sizeof(buf));
@@ -312,7 +323,8 @@ void fetch_graph_data_from_sd_card(draw_idx_t type, const float x_min,
 
     if (!file.seek(DATA_LINE_LEN - read_t - data_offset - read_val - 2,
                    SeekCur)) {
-      Log.errorln("fseek error");
+      Log.errorln("seek error, curr file pos: %d/%d", file.position(),
+                  file.size());
       break;
     }
 
@@ -340,6 +352,7 @@ void fetch_graph_data_from_sd_card(draw_idx_t type, const float x_min,
     }
   }
 
+close_file_and_return:
   file.close();
 }
 
