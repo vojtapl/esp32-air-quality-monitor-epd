@@ -9,7 +9,8 @@
 
 The goal of this project is to create portable air quality monitor, which can be
 used to measure the air quality in all environments I am in throughout the day,
-especially where I sleep.
+especially where I sleep. Some sample measurements available
+[here](/software/sample%20data/README.md).
 
 ## Readme if you Consider Making This
 
